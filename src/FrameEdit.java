@@ -537,6 +537,7 @@ public class FrameEdit extends javax.swing.JFrame {
     private void buttonEditSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEditSaveActionPerformed
         //puts information from textfields into variables while error checking
         int error = 0;//stores whether there is an error, 0 = no error, 1+ = error
+        panelEditMessage.setVisible (false);
         
         if (textFieldEditFirstName.getText() != null && textFieldEditLastName.getText() != null){
             firstName = textFieldEditFirstName.getText();
@@ -548,18 +549,32 @@ public class FrameEdit extends javax.swing.JFrame {
         if (FrameMain.isInteger(textFieldEditEmployeeNumber.getText()) == true && textFieldEditEmployeeNumber.getText() != null){
             employeeNumber = Integer.parseInt(textFieldEditEmployeeNumber.getText());}
         else {//employee number input is not an integer, error message is displayed
+            labelEditMessage.setText("Employee number is not an integer or is empty");
             error++;
         }
         if (FrameMain.isDouble(textFieldEditDeductionsRate.getText())==true && textFieldEditDeductionsRate.getText() != null && (Double.parseDouble(textFieldEditDeductionsRate.getText()) >= 0) && (Double.parseDouble(textFieldEditDeductionsRate.getText())<= 1)){
             deductionsRate = Double.parseDouble(textFieldEditDeductionsRate.getText());
         }
         else{//employee deductions rate is not a real number, nonexistent, or is not within the range between 0-1
+            labelEditMessage.setText("Please make sure the deductions rate is a real value between 0 and 1");
             error++;
         }
         
-        if (sex == -1 || workLocation == -1){//no inputs for either sex or work location
-            error++;
+        if (sex == -1){//no inputs for sex
+            sex = currentEmployee.getSex();
         }
+        
+         if (workLocation == -1){//no inputs for work location
+            workLocation = currentEmployee.getWorkLocation();                    
+        }
+         
+        //if employee type did not change
+         if (currentEmployee instanceof PartTimeEmployee){
+             employeeType = 0;
+         }
+         else if (currentEmployee instanceof FullTimeEmployee){
+             employeeType = 1;
+         }
         
         //If there is no error, edit frame will close after saving the data into the tree
         if (employeeType == 0) {//part time
@@ -578,6 +593,7 @@ public class FrameEdit extends javax.swing.JFrame {
                 weeksPerYear = Double.parseDouble(textFieldEditWeeksPerYear.getText());}
             else {// one of the inputs of hourly wage, hours per week and weeks per year is NOT a real value or is empty or is negative
                 error++;
+                labelEditMessage.setText("Please make sure that hourly wage, hours per week, and weeks per year are real values and is not negative" );
             }
             
             //makes employee, closes edit frame and opens display frame if there is no error
@@ -602,6 +618,7 @@ public class FrameEdit extends javax.swing.JFrame {
                     ){
                 annualSalary = Double.parseDouble(textFieldEditAnnualSalary.getText());}
             else {//input for annualSalary is not a real value, is empty, or is less than 0, error message is displayed
+                labelEditMessage.setText("Please make sure the annual salary is a real positive value");
                 panelEditMessage.setVisible(true);
                 error++;
             }

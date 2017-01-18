@@ -391,6 +391,7 @@ public class FrameSearch extends javax.swing.JFrame {
                         labelSearchHoursPerWeek.setVisible(false);
                         labelSearchedWeeksPerYear.setVisible(false);
                         labelSearchWeeksPerYear.setVisible(false);
+                        labelSearchErrorMessage.setVisible (false);
                         
                     }
                     // checks if the employee is part time
@@ -406,6 +407,7 @@ public class FrameSearch extends javax.swing.JFrame {
                         // make full time labels invisible
                         labelSearchedSalary.setVisible(false);
                         labelSearchAnnualSalary.setVisible(false);
+                        labelSearchErrorMessage.setVisible (false);
                     }
                     
                 }
